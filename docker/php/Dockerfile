@@ -8,6 +8,8 @@ RUN docker-php-ext-install zip pdo_mysql gd soap pcntl
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
+RUN composer global require hirak/prestissimo
+
 RUN pecl install xdebug-2.9.0
 RUN pecl install uopz
 RUN docker-php-ext-enable xdebug
