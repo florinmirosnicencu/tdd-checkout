@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+    nginx-proxy:
+        image: jwilder/nginx-proxy
+        container_name: checkout_proxy
+        ports:
+            - 80:80
+        volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+    web:
+        image: httpd:2.4.41
+        container_name: checkout_web
+        volumes:
+            - .:/usr/local/apache2/htdocs
+            - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+            - ./docker/apache/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf
+        environment:
+            - VIRTUAL_HOST=checkout.turbo
+
+    php:
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+        container_name: checkout_php
+        user: "1000:1000"
+        volumes:
+            - .:/var/www
+        environment:
+            PHP_IDE_CONFIG: "serverName=checkout"
+        ports:
+            - 9000:9000
+        depends_on:
+          - mysql
+    mysql:
+        image: mysql:8.0.18
+        container_name: checkout_mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: checkout
+            MYSQL_USER: checkout
+            MYSQL_PASSWORD: checkout
+        ports:
+            - 3306:3306
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8081:8080
