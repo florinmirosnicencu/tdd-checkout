@@ -2,6 +2,7 @@
 
 use App\Tweet;
 use App\User;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,22 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->username,
     ];
+});
+
+$factory->define(\App\Concert::class, function (Faker\Generator $faker) {
+    return [
+        'title'                  => 'Example Band',
+        'subtitle'               => 'with The Fake Openers',
+        'date'                   => Carbon::parse('+2 weeks'),
+        'ticket_price'           => 2000,
+        'venue'                  => 'The Example Theater ',
+        'venue_address'          => '123 Example Lane',
+        'city'                   => 'Fakeville',
+        'state'                  => 'ON',
+        'zip'                    => '90210',
+        'additional_information' => 'Sample additional information',
+    ];
+
 });
 
 $factory->define(Tweet::class, function (Faker\Generator $faker) {
