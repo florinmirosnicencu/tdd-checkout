@@ -31,8 +31,6 @@ services:
             PHP_IDE_CONFIG: "serverName=checkout"
         ports:
             - 9000:9000
-        depends_on:
-          - mysql
     mysql:
         image: mysql:8.0.18
         container_name: checkout_mysql

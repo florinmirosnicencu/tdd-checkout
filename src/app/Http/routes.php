@@ -1,3 +1,3 @@
 <?php
 
-Route::get('{username}', 'UsersController@show');
+Route::get('/concerts/{id}', 'ConcertsController@show');

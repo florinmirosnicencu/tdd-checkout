@@ -40,7 +40,7 @@ class ViewConcertListingTest extends TestCase
         $this->see('The great Cord');
         $this->see('with Animosity and Lethargy');
         $this->see('December 13, 2016');
-        $this->see('8PM');
+        $this->see('8:00PM');
         $this->see('32.50');
         $this->see('The mosh pit');
         $this->see('123 Example Lane');
