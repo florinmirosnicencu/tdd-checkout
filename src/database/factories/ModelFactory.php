@@ -36,3 +36,9 @@ $factory->state(\App\Concert::class, 'published', function (Faker\Generator $fak
         'published_at' => Carbon::parse('-1 week'),
     ];
 });
+
+$factory->state(\App\Concert::class, 'unpublished', function (Faker\Generator $faker) {
+    return [
+        'published_at' => null,
+    ];
+});
