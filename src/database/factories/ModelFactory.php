@@ -15,12 +15,6 @@ use Carbon\Carbon;
 |
 */
 
-$factory->define(User::class, function (Faker\Generator $faker) {
-    return [
-        'username' => $faker->username,
-    ];
-});
-
 $factory->define(\App\Concert::class, function (Faker\Generator $faker) {
     return [
         'title'                  => 'Example Band',
@@ -37,8 +31,8 @@ $factory->define(\App\Concert::class, function (Faker\Generator $faker) {
 
 });
 
-$factory->define(Tweet::class, function (Faker\Generator $faker) {
+$factory->state(\App\Concert::class, 'published', function (Faker\Generator $faker) {
     return [
-        'body' => $faker->sentence,
+        'published_at' => Carbon::parse('-1 week'),
     ];
 });
