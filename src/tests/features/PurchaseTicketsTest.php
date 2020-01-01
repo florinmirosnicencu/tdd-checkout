@@ -37,11 +37,8 @@ class PurchaseTicketsTest extends TestCase
         $this->assertResponseStatus(201);
 
         $this->assertEquals(9750, $this->paymentGateway->getTotalCharges());
-
-        $order = $concert->orders()->where('email', 'john@example.com')->first();
-
-        $this->assertNotNull($order);
-        $this->assertEquals(3, $order->tickets()->count());
+        $this->assertTrue($concert->hasOrderFor('john@example.com'));
+        $this->assertEquals(3, $concert->ordersFor('john@example.com')->first()->ticketQuantity());
     }
 
     /**
@@ -49,8 +46,7 @@ class PurchaseTicketsTest extends TestCase
      */
     public function cannot_purchase_tickets_for_an_unpublished_concert()
     {
-        $concert = factory(Concert::class)->states(['unpublished'])->create();
-        $concert->addTickets(3);
+        $concert = factory(Concert::class)->states(['unpublished'])->create()->addTickets(3);
 
         $this->orderTickets($concert, [
             'email'           => 'john@example.com',
@@ -59,7 +55,8 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $this->assertResponseStatus(404);
-        $this->assertEquals(0, $concert->orders()->count());
+
+        $this->assertFalse($concert->hasOrderFor('john@example.com'));
         $this->assertEquals(0, $this->paymentGateway->getTotalCharges());
     }
 
@@ -68,8 +65,7 @@ class PurchaseTicketsTest extends TestCase
      */
     public function email_is_required_to_purchase_tickets()
     {
-        $concert = factory(Concert::class)->states(['published'])->create();
-        $concert->addTickets(3);
+        $concert = factory(Concert::class)->states(['published'])->create()->addTickets(3);
 
         $this->orderTickets($concert, [
             'ticket_quantity' => 3,
@@ -146,8 +142,7 @@ class PurchaseTicketsTest extends TestCase
      */
     public function can_not_purchase_more_tickets_than_remain()
     {
-        $concert = factory(Concert::class)->states(['published'])->create();
-        $concert->addTickets(50);
+        $concert = factory(Concert::class)->states(['published'])->create()->addTickets(50);
 
         $this->orderTickets($concert, [
             'email'           => 'john@test.com',
@@ -156,8 +151,7 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $this->assertResponseStatus(422);
-        $order = $concert->orders()->where('email', 'john@test.com')->first();
-        $this->assertNull($order);
+        $this->assertFalse($concert->hasOrderFor('john@test.com'));
         $this->assertEquals(0, $this->paymentGateway->getTotalCharges());
         $this->assertEquals(50, $concert->ticketsRemaining());
 
@@ -168,8 +162,7 @@ class PurchaseTicketsTest extends TestCase
      */
     public function an_order_is_not_created_if_payment_fails()
     {
-        $concert = factory(Concert::class)->states(['published'])->create();
-        $concert->addTickets(3);
+        $concert = factory(Concert::class)->states(['published'])->create()->addTickets(3);
 
         $this->orderTickets($concert, [
             'email'           => 'john@example.com',
@@ -178,10 +171,7 @@ class PurchaseTicketsTest extends TestCase
         ]);
 
         $this->assertResponseStatus(422);
-        $order = $concert->orders()->where('email', 'john@example.com')->first();
-
-        $this->assertNull($order);
-
+        $this->assertFalse($concert->hasOrderFor('john@example.com'));
     }
 
     private function orderTickets($concert, $params)
