@@ -2,6 +2,7 @@
 
 
 use App\Billing\FakePaymentGateway;
+use App\Concert;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PurchaseTicketsTest extends TestCase
@@ -14,9 +15,9 @@ class PurchaseTicketsTest extends TestCase
     public function customer_can_purchase_concert_tickets()
     {
         $paymentGateway = new FakePaymentGateway();
-        $this->app->instance(\App\Billing\PaymentGateway::class,$paymentGateway);
+        $this->app->instance(\App\Billing\PaymentGateway::class, $paymentGateway);
 
-        $concert = factory(\App\Concert::class)->create(
+        $concert = factory(Concert::class)->create(
             [
                 'ticket_price' => 3250,
             ]
@@ -38,4 +39,20 @@ class PurchaseTicketsTest extends TestCase
         $this->assertEquals(3, $order->tickets()->count());
     }
 
+    /**
+     * @test
+     */
+    public function email_is_required_to_purchase_tickets()
+    {
+        $paymentGateway = new FakePaymentGateway();
+        $this->app->instance(\App\Billing\PaymentGateway::class, $paymentGateway);
+        $concert = factory(Concert::class)->create();
+
+        $this->json('post', '/concerts/' . $concert->id . '/orders', [
+            'ticket_quantity' => 3,
+            'payment_token'   => $paymentGateway->getValidTestToken(),
+        ]);
+
+        $this->assertResponseStatus(422);
+    }
 }
