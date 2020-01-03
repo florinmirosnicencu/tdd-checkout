@@ -24,9 +24,9 @@ class ConcertOrdersController extends Controller
         $concert = Concert::published()->findOrFail($concertId);
 
         $this->validate(request(), [
-            'email'           => ['required', 'email'],
+            'email' => ['required', 'email'],
             'ticket_quantity' => ['required', 'integer', 'min:1'],
-            'payment_token'   => ['required'],
+            'payment_token' => ['required'],
         ]);
 
         try {
@@ -41,9 +41,9 @@ class ConcertOrdersController extends Controller
 
             return response()->json(
                 [
-                    'email'           => request('email'),
-                    'ticket_quantity' => request('ticket_quantity'),
-                    'amount'          => request('ticket_quantity') * $concert->ticket_price,
+                    'email' => $order->email,
+                    'ticket_quantity' => $order->ticketQuantity(),
+                    'amount' => $order->ticketQuantity() * $concert->ticket_price,
                 ], 201);
         } catch (PaymentFailedException $e) {
             $order->cancel();
