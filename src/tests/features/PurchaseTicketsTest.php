@@ -15,7 +15,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
      */
     private $paymentGateway;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->paymentGateway = new FakePaymentGateway();
@@ -37,12 +37,11 @@ class PurchaseTicketsTest extends BrowserKitTestCase
 
         $this->assertResponseStatus(201);
 
-        $this->seeJsonSubset(
-            [
-                'email' => 'john@example.com',
-                'ticket_quantity' => 3,
-                'amount' => 9750,
-            ]);
+        $this->assertEquals([
+            'email' => 'john@example.com',
+            'ticket_quantity' => 3,
+            'amount' => 9750,
+        ], $this->decodeResponseJson());
 
         $this->assertEquals(9750, $this->paymentGateway->getTotalCharges());
         $this->assertTrue($concert->hasOrderFor('john@example.com'));

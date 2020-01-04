@@ -1,4 +1,4 @@
-FROM php:7.1.33-fpm-buster
+FROM php:7.4.1-fpm-buster
 
 RUN apt-get update && apt-get install -y apt-utils ldap-utils zip unzip zlib1g-dev libpng-dev libzip-dev libldb-dev libldap2-dev git libxml2-dev && \
                           rm -rf /var/lib/apt/lists/*

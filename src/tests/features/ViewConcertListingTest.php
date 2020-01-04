@@ -57,6 +57,7 @@ class ViewConcertListingTest extends BrowserKitTestCase
      */
     public function user_cannot_view_unpublished_concert_listings()
     {
+        $this->withoutExceptionHandling();
         $concert = factory(Concert::class)->states(['unpublished'])->create();
 
         $this->get('/concerts/' . $concert->id);
