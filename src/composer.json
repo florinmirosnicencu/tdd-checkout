@@ -8,7 +8,7 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": "^7.2",
+    "php": "^7.4",
     "laravel/framework": "^6.0",
     "laravel/tinker": "~2.0",
     "symfony/translation-contracts": "^1.1.6"
