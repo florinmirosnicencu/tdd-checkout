@@ -189,7 +189,9 @@ class PurchaseTicketsTest extends BrowserKitTestCase
 
     private function assertValidationError($field): void
     {
-        $this->assertResponseStatus(422);
-        $this->assertArrayHasKey($field, $this->decodeResponseJson());
+        $error = $this->decodeResponseJson();
+        $error = $error['errors'];
+
+        $this->assertArrayHasKey($field, $error);
     }
 }
