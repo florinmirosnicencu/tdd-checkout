@@ -2,6 +2,7 @@
 
 
 use App\Concert;
+use Tests\TestCase;
 
 class TicketTest extends TestCase
 {

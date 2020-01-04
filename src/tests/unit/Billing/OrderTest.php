@@ -3,6 +3,7 @@
 
 use App\Order;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class OrderTest extends TestCase
 {

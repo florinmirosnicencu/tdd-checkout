@@ -3,6 +3,7 @@
 
 use App\Billing\FakePaymentGateway;
 use App\Billing\PaymentFailedException;
+use Tests\TestCase;
 
 class FakePaymentGatewayTest extends TestCase
 {

@@ -5,8 +5,9 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 
-class ViewConcertListingTest extends TestCase
+class ViewConcertListingTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 
@@ -18,19 +19,19 @@ class ViewConcertListingTest extends TestCase
         //Arrange
         //Create a concert
         $concert = factory(Concert::class)->states(['published'])
-                                          ->create([
-                                                       'title'                  => 'The great Cord',
-                                                       'subtitle'               => 'with Animosity and Lethargy',
-                                                       'date'                   =>
-                                                           Carbon::parse('December 13, 2016 8PM'),
-                                                       'ticket_price'           => 3250,
-                                                       'venue'                  => 'The mosh pit',
-                                                       'venue_address'          => '123 Example Lane',
-                                                       'city'                   => 'Laraville',
-                                                       'state'                  => 'ON',
-                                                       'zip'                    => '17916',
-                                                       'additional_information' => 'info',
-                                                   ]);
+            ->create([
+                'title' => 'The great Cord',
+                'subtitle' => 'with Animosity and Lethargy',
+                'date' =>
+                    Carbon::parse('December 13, 2016 8PM'),
+                'ticket_price' => 3250,
+                'venue' => 'The mosh pit',
+                'venue_address' => '123 Example Lane',
+                'city' => 'Laraville',
+                'state' => 'ON',
+                'zip' => '17916',
+                'additional_information' => 'info',
+            ]);
 
         //Act
         //View the concert listing

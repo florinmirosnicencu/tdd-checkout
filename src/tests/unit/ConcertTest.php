@@ -5,6 +5,7 @@ use App\Concert;
 use App\Exceptions\NotEnoughTicketsException;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class ConcertTest extends TestCase
 {
