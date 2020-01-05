@@ -4,6 +4,7 @@ namespace App;
 
 use App\Exceptions\NotEnoughTicketsException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Concert extends Model
 {
@@ -33,7 +34,7 @@ class Concert extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsToMany(Order::class, 'tickets');
     }
 
     public function tickets()
@@ -86,21 +87,11 @@ class Concert extends Model
 
     /**
      * @param string $email
-     * @param $tickets
-     * @return Model
+     * @param Collection $tickets
+     * @return Order
      */
-    public function createOrder(string $email, $tickets): Model
+    public function createOrder(string $email, Collection $tickets): Order
     {
-        $order = $this->orders()->create(
-            [
-                'email' => $email,
-                'amount' => $tickets->count() * $this->ticket_price,
-            ]);
-
-        foreach ($tickets as $ticket) {
-            $order->tickets()->save($ticket);
-        }
-
-        return $order;
+        return Order::forTickets($tickets, $email, $tickets->sum('price'));
     }
 }

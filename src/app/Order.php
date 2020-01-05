@@ -5,10 +5,27 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Order extends Model
 {
     protected $guarded = [];
+
+    public static function forTickets(Collection $tickets, string $email, int $amount): Order
+    {
+        $order = self::create(
+            [
+                'email' => $email,
+                'amount' => $amount,
+            ]);
+
+        foreach ($tickets as $ticket) {
+            $order->tickets()->save($ticket);
+        }
+
+        return $order;
+
+    }
 
     public function concert()
     {
