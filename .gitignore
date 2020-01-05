@@ -21,3 +21,4 @@ vendor/
 /.phpunit.result.cache
 /src/.phpunit.result.cache
 /.idea/
+src/.phpunit.result.cache
