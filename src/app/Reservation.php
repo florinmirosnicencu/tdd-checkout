@@ -8,12 +8,19 @@ use Illuminate\Support\Collection;
 
 class Reservation
 {
-    /** @var Collection */
+    /**
+     * @var Collection
+     */
     private Collection $tickets;
+    /**
+     * @var string
+     */
+    public string $email;
 
-    public function __construct(Collection $tickets)
+    public function __construct(Collection $tickets, string $email)
     {
         $this->tickets = $tickets;
+        $this->email = $email;
     }
 
     public function totalCost(): int
@@ -26,5 +33,15 @@ class Reservation
         foreach ($this->tickets as $ticket) {
             $ticket->release();
         }
+    }
+
+    public function tickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function email(): string
+    {
+        return $this->email();
     }
 }
