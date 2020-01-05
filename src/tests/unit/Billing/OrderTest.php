@@ -11,9 +11,7 @@ class OrderTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function test_creating_an_order_from_tickets_email_and_amount()
     {
         $concert = factory(Concert::class)->create()->addTickets(5);
@@ -28,9 +26,7 @@ class OrderTest extends TestCase
 
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function converting_to_array()
     {
         $concert = factory(Concert::class)->create(
@@ -49,9 +45,7 @@ class OrderTest extends TestCase
         ], $result);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function test_the_tickets_are_released_when_the_order_is_canceled()
     {
         $concert = factory(Concert::class)->create()->addTickets(10);

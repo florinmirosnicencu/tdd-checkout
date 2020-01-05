@@ -4,28 +4,36 @@
 namespace App;
 
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class Ticket extends Model
 {
     protected $guarded = [];
 
-    public function scopeAvailable($query)
+    public function scopeAvailable(Builder $query): Builder
     {
-        return $query->whereNull('order_id');
+        return $query->whereNull('order_id')->whereNull('reserved_at');
     }
 
-    public function release()
+    public function reserve(): void
+    {
+        $this->update(['reserved_at' => Carbon::now()]);
+    }
+
+    public function release(): void
     {
         $this->update(['order_id' => null]);
     }
 
-    public function concert()
+    public function concert(): Relation
     {
         return $this->belongsTo(Concert::class);
     }
 
-    public function getPriceAttribute()
+    public function getPriceAttribute(): int
     {
         return $this->concert->ticket_price;
     }

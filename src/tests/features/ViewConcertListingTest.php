@@ -10,9 +10,7 @@ class ViewConcertListingTest extends BrowserKitTestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function user_can_view_a_published_concert_listing()
     {
         //Arrange
@@ -51,9 +49,7 @@ class ViewConcertListingTest extends BrowserKitTestCase
         $this->see('info');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function user_cannot_view_unpublished_concert_listings()
     {
         $this->withoutExceptionHandling();

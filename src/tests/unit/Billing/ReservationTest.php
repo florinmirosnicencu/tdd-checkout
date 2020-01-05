@@ -8,9 +8,7 @@ use Tests\TestCase;
 
 class ReservationTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function calculation_the_total_cost()
     {
         $tickets = collect([

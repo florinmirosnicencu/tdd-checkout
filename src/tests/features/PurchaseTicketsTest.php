@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Features;
 
 use App\Billing\FakePaymentGateway;
@@ -23,9 +24,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->app->instance(PaymentGateway::class, $this->paymentGateway);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function customer_can_purchase_published_concert_tickets()
     {
         $this->withoutExceptionHandling();
@@ -51,9 +50,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertEquals(3, $concert->ordersFor('john@example.com')->first()->ticketQuantity());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function cannot_purchase_tickets_for_an_unpublished_concert()
     {
         $concert = factory(Concert::class)->states(['unpublished'])->create()->addTickets(3);
@@ -70,9 +67,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertEquals(0, $this->paymentGateway->getTotalCharges());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function email_is_required_to_purchase_tickets()
     {
         $concert = factory(Concert::class)->states(['published'])->create()->addTickets(3);
@@ -85,9 +80,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertValidationError('email');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function email_must_be_valid_to_purchase_tickets()
     {
         $concert = factory(Concert::class)->states(['published'])->create();
@@ -101,9 +94,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertValidationError('email');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function ticket_quantity_is_required_to_purchase_tickets()
     {
         $concert = factory(Concert::class)->states(['published'])->create();
@@ -116,9 +107,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertValidationError('ticket_quantity');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function ticket_quantity_is_at_least_1_to_purchase_tickets()
     {
         $concert = factory(Concert::class)->states(['published'])->create();
@@ -132,9 +121,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertValidationError('ticket_quantity');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function payment_token_is_required_to_purchase_tickets()
     {
         $concert = factory(Concert::class)->states(['published'])->create();
@@ -147,9 +134,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
         $this->assertValidationError('payment_token');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function can_not_purchase_more_tickets_than_remain()
     {
         $concert = factory(Concert::class)->states(['published'])->create()->addTickets(50);
@@ -167,9 +152,36 @@ class PurchaseTicketsTest extends BrowserKitTestCase
 
     }
 
-    /**
-     * @test
-     */
+    /** @test */
+    public function can_not_purchase_tickets_another_customer_is_trying_to_purchase()
+    {
+        $this->withoutExceptionHandling();
+        $concert = factory(Concert::class)->states(['published'])->create(['ticket_price' => 1200])->addTickets(3);
+
+        $this->paymentGateway->beforeFirstCharge(function ($paymentGateway) use ($concert) {
+            $this->orderTickets($concert, [
+                'email' => 'personB@test.com',
+                'ticket_quantity' => 1,
+                'payment_token' => $this->paymentGateway->getValidTestToken(),
+            ]);
+
+            $this->assertResponseStatus(422);
+            $this->assertFalse($concert->hasOrderFor('personB@test.com'));
+        });
+
+
+        $this->orderTickets($concert, [
+            'email' => 'personA@test.com',
+            'ticket_quantity' => 3,
+            'payment_token' => $this->paymentGateway->getValidTestToken(),
+        ]);
+
+        $this->assertEquals(3600, $this->paymentGateway->getTotalCharges());
+        $this->assertTrue($concert->hasOrderFor('personA@test.com'));
+        $this->assertEquals(3, $concert->ordersFor('personA@test.com')->first()->ticketQuantity());
+    }
+
+    /** @test */
     public function an_order_is_not_created_if_payment_fails()
     {
         $concert = factory(Concert::class)->states(['published'])->create()->addTickets(3);
@@ -186,7 +198,9 @@ class PurchaseTicketsTest extends BrowserKitTestCase
 
     private function orderTickets($concert, $params)
     {
+        $savedRequest = $this->app['request'];
         $this->json('post', '/concerts/' . $concert->id . '/orders', $params);
+        $this->app['request'] = $savedRequest;
     }
 
     private function assertValidationError($field): void
