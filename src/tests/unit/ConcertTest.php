@@ -1,5 +1,5 @@
 <?php
-
+namespace Tests\Unit;
 
 use App\Concert;
 use App\Exceptions\NotEnoughTicketsException;

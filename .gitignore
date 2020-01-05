@@ -11,12 +11,13 @@
 docker/ssl/
 
 # Application
-web/app/composer.lock
-web/app/vendor/
-web/app/doc/
-web/app/report/
+src/app/composer.lock
+src/app/vendor/
+src/app/doc/
+src/app/report/
 data/
 vendor/
 
 /.phpunit.result.cache
+/src/.phpunit.result.cache
 /.idea/

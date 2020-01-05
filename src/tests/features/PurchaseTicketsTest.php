@@ -1,7 +1,8 @@
 <?php
-
+namespace Tests\Features;
 
 use App\Billing\FakePaymentGateway;
+use App\Billing\PaymentGateway;
 use App\Concert;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\BrowserKitTestCase;
@@ -19,7 +20,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
     {
         parent::setUp();
         $this->paymentGateway = new FakePaymentGateway();
-        $this->app->instance(\App\Billing\PaymentGateway::class, $this->paymentGateway);
+        $this->app->instance(PaymentGateway::class, $this->paymentGateway);
     }
 
     /**
@@ -27,6 +28,8 @@ class PurchaseTicketsTest extends BrowserKitTestCase
      */
     public function customer_can_purchase_published_concert_tickets()
     {
+        $this->withoutExceptionHandling();
+
         $concert = factory(Concert::class)->states(['published'])->create(['ticket_price' => 3250,])->addTickets(3);
 
         $this->orderTickets($concert, [

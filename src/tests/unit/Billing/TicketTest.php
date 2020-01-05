@@ -1,12 +1,13 @@
 <?php
-
+namespace Tests\Unit\Billing;
 
 use App\Concert;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class TicketTest extends TestCase
 {
-    use \Illuminate\Foundation\Testing\DatabaseMigrations;
+    use DatabaseMigrations;
 
     /**
      * @test
