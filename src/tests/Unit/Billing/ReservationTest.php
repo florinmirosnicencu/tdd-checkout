@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\unit\Billing;
+namespace Tests\Unit\Billing;
 
 
 use App\Billing\FakePaymentGateway;
