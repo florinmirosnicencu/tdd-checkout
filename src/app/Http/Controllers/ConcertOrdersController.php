@@ -12,7 +12,7 @@ use App\Exceptions\NotEnoughTicketsException;
 class ConcertOrdersController extends Controller
 {
 
-    private $paymentGateway;
+    private PaymentGateway $paymentGateway;
 
     public function __construct(PaymentGateway $paymentGateway)
     {
