@@ -24,20 +24,15 @@ class StripePaymentGatewayTest extends TestCase
 
         $paymentGateway->charge(2500, $this->validToken());
 
-        $newCharge = Charge::all([
-            'limit' => 1,
-            'ending_before' => $lastCharge->id
-        ])['data'][0];
-
-        $this->assertCount(1, $this->newCharges());
-        $this->assertEquals(2500, $newCharge->amount);
+        $this->assertCount(1, $this->newCharges($lastCharge));
+        $this->assertEquals(2500, $this->lastCharge()->amount);
     }
 
     /**
      * @return mixed
      * @throws ApiErrorException
      */
-    private function lastCharge(): string
+    private function lastCharge(): Charge
     {
         return Charge::all([
             'limit' => 1,
@@ -60,7 +55,11 @@ class StripePaymentGatewayTest extends TestCase
         ])->id;
     }
 
-    private function newCharges($endingBefore)
+    private function newCharges(Charge $endingBefore): array
     {
+        return Charge::all([
+            'limit' => 1,
+            'ending_before' => $endingBefore->id
+        ])['data'];
     }
 }
