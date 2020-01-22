@@ -1,12 +1,14 @@
 <?php
+
 namespace Tests\Features;
 
 use App\Concert;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\BrowserKitTestCase;
+use Tests\TestCase;
 
-class ViewConcertListingTest extends BrowserKitTestCase
+class ViewConcertListingTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -32,21 +34,21 @@ class ViewConcertListingTest extends BrowserKitTestCase
 
         //Act
         //View the concert listing
-        $this->visit('/concerts/' . $concert->id);
+        $response = $this->get('/concerts/' . $concert->id);
 
 
         //Assert
         //See the concert details
-
-        $this->see('The great Cord');
-        $this->see('with Animosity and Lethargy');
-        $this->see('December 13, 2016');
-        $this->see('8:00PM');
-        $this->see('32.50');
-        $this->see('The mosh pit');
-        $this->see('123 Example Lane');
-        $this->see('Laraville, ON 17916');
-        $this->see('info');
+        $response->assertOk();
+        $response->assertSee('The great Cord');
+        $response->assertSee('with Animosity and Lethargy');
+        $response->assertSee('December 13, 2016');
+        $response->assertSee('8:00pm');
+        $response->assertSee('32.50');
+        $response->assertSee('The mosh pit');
+        $response->assertSee('123 Example Lane');
+        $response->assertSee('Laraville, ON 17916');
+        $response->assertSee('info');
     }
 
     /** @test */
@@ -55,8 +57,8 @@ class ViewConcertListingTest extends BrowserKitTestCase
         $this->withoutExceptionHandling();
         $concert = factory(Concert::class)->states(['unpublished'])->create();
 
-        $this->get('/concerts/' . $concert->id);
+        $response = $this->get('/concerts/' . $concert->id);
 
-        $this->assertResponseStatus(404);
+        $response->assertStatus(404);
     }
 }

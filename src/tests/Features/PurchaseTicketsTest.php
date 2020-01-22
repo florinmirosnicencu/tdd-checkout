@@ -6,9 +6,11 @@ use App\Billing\FakePaymentGateway;
 use App\Billing\PaymentGateway;
 use App\Concert;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\TestResponse;
 use Tests\BrowserKitTestCase;
+use Tests\TestCase;
 
-class PurchaseTicketsTest extends BrowserKitTestCase
+class PurchaseTicketsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -16,6 +18,10 @@ class PurchaseTicketsTest extends BrowserKitTestCase
      * @var FakePaymentGateway
      */
     private $paymentGateway;
+    /**
+     * @var TestResponse
+     */
+    private TestResponse $response;
 
     protected function setUp(): void
     {
@@ -43,7 +49,7 @@ class PurchaseTicketsTest extends BrowserKitTestCase
             'email' => 'john@example.com',
             'ticket_quantity' => 3,
             'amount' => 9750,
-        ], $this->decodeResponseJson());
+        ], $this->response->decodeResponseJson());
 
         $this->assertEquals(9750, $this->paymentGateway->getTotalCharges());
         $this->assertTrue($concert->hasOrderFor('john@example.com'));
@@ -194,19 +200,24 @@ class PurchaseTicketsTest extends BrowserKitTestCase
 
         $this->assertResponseStatus(422);
         $this->assertFalse($concert->hasOrderFor('john@example.com'));
-        $this->assertEquals(3,$concert->ticketsRemaining());
+        $this->assertEquals(3, $concert->ticketsRemaining());
     }
 
     private function orderTickets($concert, $params)
     {
         $savedRequest = $this->app['request'];
-        $this->json('post', '/concerts/' . $concert->id . '/orders', $params);
+        $this->response = $this->json('post', '/concerts/' . $concert->id . '/orders', $params);
         $this->app['request'] = $savedRequest;
+    }
+
+    private function assertResponseStatus($status)
+    {
+        $this->response->assertStatus($status);
     }
 
     private function assertValidationError($field): void
     {
-        $error = $this->decodeResponseJson();
+        $error = $this->response->decodeResponseJson();
         $error = $error['errors'];
 
         $this->assertArrayHasKey($field, $error);
