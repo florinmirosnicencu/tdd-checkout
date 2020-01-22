@@ -11,6 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserTableSeeder::class);
+        factory(App\Concert::class)->states('published')->create()->addTickets(10);
     }
 }

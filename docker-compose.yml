@@ -31,18 +31,3 @@ services:
             PHP_IDE_CONFIG: "serverName=checkout"
         ports:
             - 9000:9000
-    mysql:
-        image: mysql:8.0.18
-        container_name: checkout_mysql
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: checkout
-            MYSQL_USER: checkout
-            MYSQL_PASSWORD: checkout
-        ports:
-            - 3306:3306
-    adminer:
-        image: adminer
-        restart: always
-        ports:
-            - 8081:8080
