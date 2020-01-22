@@ -1,6 +1,7 @@
 <?php
 
 use App\Concert;
+use App\Order;
 use App\Ticket;
 use App\Tweet;
 use App\User;
@@ -59,4 +60,12 @@ $factory->state(Ticket::class, 'reserved', function (\Faker\Generator $faker) {
     return [
         'reserved_at' => Carbon::now()
     ];
+});
+
+$factory->define(Order::class, function (Faker\Generator $faker) {
+    return [
+        'amount' => '5250',
+        'email' => 'test@test.com'
+    ];
+
 });
