@@ -26,7 +26,8 @@ services:
         user: "1000:1000"
         volumes:
             - .:/var/www
-            - ~/.composer/cache:/root/.composer/cache
+            - ~/.composer/:/root/.composer/
+            - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
         environment:
             PHP_IDE_CONFIG: "serverName=checkout"
         ports:

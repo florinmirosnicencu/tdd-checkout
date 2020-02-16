@@ -23,7 +23,9 @@ class ViewOrderTest extends TestCase
         //create an order
         $order = factory(Order::class)->create(
             [
-                'confirmation_number' => 'ORDERCONFIRMATION12345'
+                'confirmation_number' => 'ORDERCONFIRMATION12345',
+                'card_last_four' => '1881',
+                'amount' => 8500
             ]
         );
         //create some tickets
@@ -40,9 +42,13 @@ class ViewOrderTest extends TestCase
         //assert we see the correct order details
         $response->assertOk();
 
-        $response->assertViewHas('order', function ($viewOrder) use ($order){
+        $response->assertViewHas('order', function ($viewOrder) use ($order) {
             return $order->id === $viewOrder->id;
         });
+
+        $response->assertSee('ORDERCONFIRMATION12345');
+        $response->assertSee('$85.00');
+        $response->assertSee('**** **** **** 1881');
     }
 
 }

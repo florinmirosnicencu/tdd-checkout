@@ -4,6 +4,7 @@ namespace Tests\Unit\Billing;
 
 use App\Concert;
 use App\Order;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -24,6 +25,31 @@ class OrderTest extends TestCase
         $this->assertEquals(3600, $order->amount);
         $this->assertEquals(2, $concert->ticketsRemaining());
 
+    }
+
+    /** @test */
+    public function test_retrieving_an_order_by_confirmation_number()
+    {
+        $order = factory(Order::class)->create([
+            'confirmation_number' => 'test'
+        ]);
+
+        $foundOrder = Order::findByConfirmationNumber('test');
+
+        $this->assertEquals($order->id, $foundOrder->id);
+    }
+
+    /** @test */
+    public function retrieving_a_nonexistent_order_by_confirmation_number_will_throw_an_exception()
+    {
+        try {
+            Order::findByConfirmationNumber('NONEXISTENTCONFIRMATIONNUMBER');
+        } catch (ModelNotFoundException $e) {
+            $this->assertTrue(true);
+            return;
+        }
+
+        $this->fail();
     }
 
 

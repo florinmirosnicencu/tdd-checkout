@@ -42,6 +42,7 @@ class Order extends Model
         return $this->tickets()->count();
     }
 
+
     public function toArray()
     {
         return [
@@ -50,4 +51,10 @@ class Order extends Model
             'amount' => $this->amount
         ];
     }
+
+    public static function findByConfirmationNumber(string $confirmationNumber): Order
+    {
+        return self::where('confirmation_number', $confirmationNumber)->firstOrFail();
+    }
+
 }
