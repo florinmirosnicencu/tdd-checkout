@@ -5,7 +5,6 @@ namespace Tests\Features;
 use App\Concert;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\BrowserKitTestCase;
 use Tests\TestCase;
 
 class ViewConcertListingTest extends TestCase

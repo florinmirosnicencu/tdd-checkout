@@ -6,8 +6,7 @@ use App\Billing\FakePaymentGateway;
 use App\Billing\PaymentGateway;
 use App\Concert;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\TestResponse;
-use Tests\BrowserKitTestCase;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class PurchaseTicketsTest extends TestCase
