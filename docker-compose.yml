@@ -9,7 +9,7 @@ services:
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
     web:
-        image: httpd:2.4.41
+        image: httpd:2.4.43
         container_name: checkout_web
         volumes:
             - .:/usr/local/apache2/htdocs
