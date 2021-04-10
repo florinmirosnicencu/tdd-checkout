@@ -8,7 +8,7 @@ RUN docker-php-ext-install zip pdo_mysql gd soap pcntl
 
 COPY --from=composer:1.10.21 /usr/bin/composer /usr/bin/composer
 
-RUN pecl install xdebug-2.9.8
+RUN pecl install xdebug-3.0.4
 RUN pecl install uopz
 RUN docker-php-ext-enable xdebug
 

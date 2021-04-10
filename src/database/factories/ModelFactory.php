@@ -1,10 +1,9 @@
 <?php
+namespace Database\Factories;
 
 use App\Concert;
 use App\Order;
 use App\Ticket;
-use App\Tweet;
-use App\User;
 use Carbon\Carbon;
 
 /*
