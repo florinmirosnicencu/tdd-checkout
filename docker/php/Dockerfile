@@ -1,4 +1,4 @@
-FROM php:7.4.2-fpm-buster
+FROM php:7.4.16-fpm-buster
 
 RUN apt-get update && apt-get install -y apt-utils ldap-utils zip unzip zlib1g-dev libpng-dev libzip-dev libldb-dev libldap2-dev git libxml2-dev && \
                           rm -rf /var/lib/apt/lists/*
@@ -6,15 +6,10 @@ RUN apt-get update && apt-get install -y apt-utils ldap-utils zip unzip zlib1g-d
 RUN docker-php-ext-configure zip
 RUN docker-php-ext-install zip pdo_mysql gd soap pcntl
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+COPY --from=composer:1.10.21 /usr/bin/composer /usr/bin/composer
 
-RUN pecl install xdebug
+RUN pecl install xdebug-2.9.8
 RUN pecl install uopz
 RUN docker-php-ext-enable xdebug
-
-COPY ./config/xdebug.ini .
-RUN cat xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && rm xdebug.ini
-
-COPY ./config/php.ini /usr/local/etc/php/
 
 WORKDIR /var/www

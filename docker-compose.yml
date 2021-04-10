@@ -3,14 +3,12 @@ version: '3'
 services:
     nginx-proxy:
         image: jwilder/nginx-proxy
-        container_name: checkout_proxy
         ports:
             - 80:80
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
     web:
-        image: httpd:2.4.43
-        container_name: checkout_web
+        image: httpd:2.4.46
         volumes:
             - .:/usr/local/apache2/htdocs
             - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
@@ -22,12 +20,11 @@ services:
         build:
             context: ./docker/php
             dockerfile: Dockerfile
-        container_name: checkout_php
-        user: "1000:1000"
         volumes:
-            - .:/var/www
+            - ./src/:/var/www
             - ~/.composer/:/root/.composer/
-            - $SSH_AUTH_SOCK:/ssh-agent # Forward local machine SSH key to docker
+            - ~/.ssh:/root/.ssh # Forward local machine SSH key to docker
+            - ./docker/php/config/php.ini:/usr/local/etc/php/php.ini
         environment:
             PHP_IDE_CONFIG: "serverName=checkout"
         ports:
