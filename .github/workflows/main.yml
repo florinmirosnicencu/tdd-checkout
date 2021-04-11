@@ -27,7 +27,7 @@ jobs:
         run: src/vendor/bin/phpunit -c src/phpunit.xml --group Unit
       - name: Run Feature tests
         run: src/vendor/bin/phpunit -c src/phpunit.xml --group Feature
-      - name: Run Unit tests
+      - name: Run Integration tests
         run: src/vendor/bin/phpunit -c src/phpunit.xml --group Integration
         env:
           STRIPE_SECRET: ${{ secrets.STRIPE_SECRET }}
