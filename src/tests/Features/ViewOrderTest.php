@@ -9,7 +9,7 @@ use App\Order;
 use App\Ticket;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-/*
+/**
  * @group Feature
  */
 class ViewOrderTest extends TestCase

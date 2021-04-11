@@ -10,7 +10,7 @@ use App\Ticket;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Mockery;
 use Tests\TestCase;
-/*
+/**
  * @group Unit
  */
 class ReservationTest extends TestCase

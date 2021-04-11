@@ -4,7 +4,7 @@ namespace Tests\Unit\Billing;
 
 use App\Billing\PaymentFailedException;
 use App\Billing\PaymentGateway;
-/*
+/**
  * @group Unit
  */
 trait PaymentGatewayContractTest

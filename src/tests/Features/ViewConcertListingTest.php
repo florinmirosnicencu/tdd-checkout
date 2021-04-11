@@ -6,7 +6,7 @@ use App\Concert;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-/*
+/**
  * @group Feature
  */
 class ViewConcertListingTest extends TestCase

@@ -5,7 +5,7 @@ namespace Tests\Unit\Billing;
 use App\Ticket;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-/*
+/**
  * @group Unit
  */
 class TicketTest extends TestCase
