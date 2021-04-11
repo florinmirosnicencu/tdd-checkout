@@ -25,4 +25,4 @@ jobs:
         mkdir -p src/database
         touch src/database/database.sqlite
     - run: |
-        src/vendor/bin/phpunit -c /phpunit.xml
+        src/vendor/bin/phpunit -c phpunit.xml
