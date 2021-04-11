@@ -15,7 +15,7 @@ class TicketTest extends TestCase
     /** @test */
     public function tickets_can_be_reserved()
     {
-        $ticket = factory(Ticket::class)->create();
+        $ticket = Ticket::factory()->create();
         $this->assertNull($ticket->reserved_at);
 
         $ticket->reserve();
@@ -26,7 +26,7 @@ class TicketTest extends TestCase
     /** @test */
     public function a_ticket_can_be_released()
     {
-        $ticket = factory(Ticket::class)->states(['reserved'])->create();
+        $ticket = Ticket::factory()->reserved()->create();
         $this->assertNotNull($ticket->reserved_at);
 
         $ticket->release();

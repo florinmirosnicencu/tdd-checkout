@@ -21,9 +21,9 @@ class ViewOrderTest extends TestCase
     {
         $this->withoutExceptionHandling();
         //create a concert
-        $concert = factory(Concert::class)->create();
+        $concert = Concert::factory()->create();
         //create an order
-        $order = factory(Order::class)->create(
+        $order = Order::factory()->create(
             [
                 'confirmation_number' => 'ORDERCONFIRMATION12345',
                 'card_last_four' => '1881',
@@ -31,7 +31,7 @@ class ViewOrderTest extends TestCase
             ]
         );
         //create some tickets
-        $ticket = factory(Ticket::class)->create(
+        $ticket = Ticket::factory()->create(
             [
                 'concert_id' => $concert->id,
                 'order_id' => $order->id,

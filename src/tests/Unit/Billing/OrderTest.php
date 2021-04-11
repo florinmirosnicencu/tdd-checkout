@@ -7,6 +7,7 @@ use App\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+
 /**
  * @group Unit
  */
@@ -17,7 +18,7 @@ class OrderTest extends TestCase
     /** @test */
     public function test_creating_an_order_from_tickets_email_and_amount()
     {
-        $concert = factory(Concert::class)->create()->addTickets(5);
+        $concert = Concert::factory()->create()->addTickets(5);
         $this->assertEquals(5, $concert->ticketsRemaining());
 
         $order = Order::forTickets($concert->findTickets(3), 'john@example.com', 3600);
@@ -32,7 +33,7 @@ class OrderTest extends TestCase
     /** @test */
     public function test_retrieving_an_order_by_confirmation_number()
     {
-        $order = factory(Order::class)->create([
+        $order = Order::factory()->create([
             'confirmation_number' => 'test'
         ]);
 
@@ -58,7 +59,7 @@ class OrderTest extends TestCase
     /** @test */
     public function converting_to_array()
     {
-        $concert = factory(Concert::class)->create(
+        $concert = Concert::factory()->create(
             [
                 'ticket_price' => 1200
             ]

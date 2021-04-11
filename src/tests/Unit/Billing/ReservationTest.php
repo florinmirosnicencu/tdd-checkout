@@ -10,6 +10,7 @@ use App\Ticket;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Mockery;
 use Tests\TestCase;
+
 /**
  * @group Unit
  */
@@ -72,8 +73,8 @@ class ReservationTest extends TestCase
     /** @test */
     public function completing_a_reservation()
     {
-        $concert = factory(Concert::class)->create(['ticket_price' => 1200]);
-        $tickets = factory(Ticket::class, 3)->create(['concert_id' => $concert->id]);
+        $concert = Concert::factory()->create(['ticket_price' => 1200]);
+        $tickets = Ticket::factory()->count(3)->create(['concert_id' => $concert->id]);
         $reservation = new Reservation($tickets, 'john@example.com');
         $paymentGateway = new FakePaymentGateway();
 
