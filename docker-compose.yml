@@ -27,5 +27,6 @@ services:
             - ./docker/php/config/php.ini:/usr/local/etc/php/php.ini
         environment:
             PHP_IDE_CONFIG: "serverName=checkout"
+        user: "1001:1001"
         ports:
             - 9000:9000
