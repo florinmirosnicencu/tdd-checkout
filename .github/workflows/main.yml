@@ -16,6 +16,7 @@ jobs:
       - uses: "ramsey/composer-install@v1"
         with:
           composer-options: "--working-dir=src"
+          dependency-versions: "locked"
           
       - name: Generate key
         run: php artisan key:generate
