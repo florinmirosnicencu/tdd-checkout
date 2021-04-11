@@ -25,8 +25,7 @@ jobs:
       run: |
         mkdir -p src/database
         touch src/database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: src/vendor/bin/phpunit
+    - run: |
+        src/vendor/bin/phpunit --group Unit
+        src/vendor/bin/phpunit --group Feature
+        src/vendor/bin/phpunit --group Integration
