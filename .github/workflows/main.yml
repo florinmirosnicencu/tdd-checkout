@@ -14,6 +14,7 @@ jobs:
          version: 1
          ssh_key: ${{ secrets.SSH_KEY }}
          ssh_key_pub: ${{ secrets.SSH_KEY_PUB }}
+         progress: yes
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v2
         with:
