@@ -26,6 +26,4 @@ jobs:
         mkdir -p src/database
         touch src/database/database.sqlite
     - run: |
-        src/vendor/bin/phpunit --group Unit
-        src/vendor/bin/phpunit --group Feature
-        src/vendor/bin/phpunit --group Integration
+        src/vendor/bin/phpunit /src/tests
