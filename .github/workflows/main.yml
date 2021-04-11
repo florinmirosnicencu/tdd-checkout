@@ -11,8 +11,9 @@ jobs:
         php-version: '7.4'
         tools: composer:v1
     - uses: actions/checkout@v2
+    - run: cd src
     - name: Copy .env
-      run: php -r "file_exists('src/.env') || copy('src/.env.example', 'src/.env');"
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - run: ls -la
     - run: ls src -la
     - name: Install Dependencies
