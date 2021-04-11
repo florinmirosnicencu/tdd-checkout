@@ -12,7 +12,7 @@ jobs:
         tools: composer:v1
     - uses: actions/checkout@v2
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "file_exists('/src/.env') || copy('/src.env.example', '/src.env');"
     - run: ls 
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --working-dir=src
