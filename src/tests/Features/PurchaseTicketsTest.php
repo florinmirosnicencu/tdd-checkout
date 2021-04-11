@@ -8,7 +8,9 @@ use App\Concert;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
-
+/*
+ * @group Feature
+ */
 class PurchaseTicketsTest extends TestCase
 {
     use DatabaseMigrations;

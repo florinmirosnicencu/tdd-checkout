@@ -7,7 +7,9 @@ use App\Order;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-
+/*
+ * @group Unit
+ */
 class OrderTest extends TestCase
 {
     use DatabaseMigrations;
