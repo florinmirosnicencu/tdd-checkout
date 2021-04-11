@@ -8,13 +8,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
-        with: 
-         php_version: 7.4
-         version: 1
-         ssh_key: ${{ secrets.SSH_KEY }}
-         ssh_key_pub: ${{ secrets.SSH_KEY_PUB }}
-         progress: yes
+      - uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "7.4"
+      - uses: "ramsey/composer-install@v1"
+        with:
+          composer-options: "--working-dir=src"
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v2
         with:
