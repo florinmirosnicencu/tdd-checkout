@@ -6,7 +6,9 @@ use App\Concert;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-
+/**
+ * @group Feature
+ */
 class ViewConcertListingTest extends TestCase
 {
     use DatabaseMigrations;
@@ -16,7 +18,7 @@ class ViewConcertListingTest extends TestCase
     {
         //Arrange
         //Create a concert
-        $concert = factory(Concert::class)->states(['published'])
+        $concert = Concert::factory()->published()
             ->create([
                 'title' => 'The great Cord',
                 'subtitle' => 'with Animosity and Lethargy',
@@ -54,7 +56,7 @@ class ViewConcertListingTest extends TestCase
     public function user_cannot_view_unpublished_concert_listings()
     {
         $this->withoutExceptionHandling();
-        $concert = factory(Concert::class)->states(['unpublished'])->create();
+        $concert = Concert::factory()->unpublished()->create();
 
         $response = $this->get('/concerts/' . $concert->id);
 

@@ -4,11 +4,14 @@
 namespace App;
 
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class Order extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     public static function forTickets(Collection $tickets, string $email, int $amount): Order

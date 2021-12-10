@@ -3,11 +3,13 @@
 namespace App;
 
 use App\Exceptions\NotEnoughTicketsException;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class Concert extends Model
 {
+    use HasFactory;
     protected $guarded = [];
 
     protected $dates = ['date'];
