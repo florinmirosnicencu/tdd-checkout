@@ -8,7 +8,7 @@ services:
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
     web:
-        image: httpd:2.4.46
+        image: httpd:2.4.51
         volumes:
             - .:/usr/local/apache2/htdocs
             - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
@@ -28,5 +28,3 @@ services:
         environment:
             PHP_IDE_CONFIG: "serverName=checkout"
         user: "1001:1001"
-        ports:
-            - 9000:9000

@@ -48,8 +48,8 @@ class ConcertTest extends TestCase
     /** @test */
     public function concerts_with_a_published_at_date_are_published()
     {
-        $publishedConcertA = Concert::factory()->published()->make();
-        $publishedConcertB = Concert::factory()->published()->make();
+        $publishedConcertA = Concert::factory()->published()->create();
+        $publishedConcertB = Concert::factory()->published()->create();
         $unpublishedConcert = Concert::factory()->create();
 
         $publishedConcerts = Concert::Published()->get();
