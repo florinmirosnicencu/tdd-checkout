@@ -1,4 +1,4 @@
-FROM php:8.1.0-fpm-buster
+FROM php:8.1.11-fpm-buster
 
 RUN apt-get update &&  \
     apt-get install -y apt-utils \
